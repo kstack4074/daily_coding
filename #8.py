@@ -46,40 +46,63 @@ class Node:
         self.left = left
         self.right = right
 
-def unival_number(node):
-    univalNum = [0]
-    helper(node, univalNum)
+'''
+Counts the number of unival subtrees O(n^2)
+'''
+def count_univals(root):
+    if root == None:
+        return 0
 
-    return univalNum[0]
+    total_count = count_univals(root.left) + count_univals(root.right)
+    if is_unival(root):
+        total_count += 1
+    return total_count
 
-def helper(node, univalNum):
-    leftTreeVal = None
-    rightTreeVal = None
+'''
+Returns whether or not a given root node is a unival tree
+'''
+def is_unival(root):
+    if root == None:
+        return True
+    if root.left != None and root.left.data != root.data:
+        return False
+    if root.right != None and root.right.data != root.data:
+        return False
+    if is_unival(root.left) and is_unival(root.right):
+        return True
+    return False
 
-    #Leaf Node
-    if(not node.left and not node.right):
-        univalNum[0] += 1
-        return node.data
+'''
+Wrapper for helper2
+'''
+def count_univals2(root):
+    total_count, is_unival = helper2(root)
+    return total_count
 
-    #Recursion
-    if(node.left):
-        leftTreeVal = helper(node.left, univalNum)
-    if(node.right):
-        rightTreeVal = helper(node.right, univalNum)
-    #Balanced children
-    if leftTreeVal == rightTreeVal == node.data:
-        univalNum[0] += 1
-        return leftTreeVal
+'''
+Returns the number of unival sub trees from a root node, and whether the root
+node forms a unival subtree
+O(n)
+'''
+def helper2(root):
+    is_unival = True
+    if root == None:
+        return (0, True)
+    left_count, is_left_unival = helper2(root.left)
+    right_count, is_right_unival = helper2(root.right)
 
-    #Unbalanced children
-    if(node.left == None or node.right == None):
-        if leftTreeVal == node.data:
-            univalNum[0] += 1
-            return leftTreeVal
+    if not is_left_unival or not is_right_unival:
+        is_unival = False
 
-        elif rightTreeVal == node.data:
-            univalNum[0] += 1
-            return rightTreeVal
+    if root.left != None and root.left.data != root.data:
+        is_unival = False
+    if root.right != None and root.right.data != root.data:
+        is_unival = False
+
+    if is_unival:
+        return (left_count + right_count + 1, True)
+    else:
+        return (left_count + right_count, False)
 
 
 RLL = Node(1, None, None)
@@ -91,4 +114,4 @@ R = Node(0,RL, RR)
 root = Node(0, L, R)
 univalNum = [None]
 
-unival_number(root)
+print(count_univals2(root))
