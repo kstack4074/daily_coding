@@ -34,7 +34,6 @@ length of the longest absolute path to a file in the abstracted file system.
 If there is no file in the system, return 0.
 
 Note:
-
 The name of a file contains at least a period and an extension.
 
 The name of a directory or sub-directory will not contain a period.
@@ -43,8 +42,6 @@ KEELAN TIME
 We need to a) parse the string and b) find the longest path
 We have to check all combos so tree vs dictionary is useless. Dictionary tree
 is easier than worrying about traversing up and down tree.
-
-
 '''
 
 def build_fs(input):
