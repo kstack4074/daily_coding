@@ -7,12 +7,14 @@ of steps to go from start to end. If there's no possible path, return null.
 '''
 from queue import Queue
 
+
 def walkable(board, row, col):
     if row < 0 or row >= len(board):
         return False
     if col < 0 or col >= len(board[0]):
         return False
     return not board[row][col]
+
 
 def get_walkable_neighbours(board, row, col):
     return [(r, c) for r, c in [
@@ -23,6 +25,7 @@ def get_walkable_neighbours(board, row, col):
         if walkable(board, r, c)
     ]
 
+
 def path_builder(nodePath, node):
     path = []
     while nodePath[node] != None:
@@ -31,6 +34,7 @@ def path_builder(nodePath, node):
 
     path.append(node)
     return path
+
 
 def board_walk(board, start, end):
     nodePath = {}
@@ -45,13 +49,14 @@ def board_walk(board, start, end):
         if node == end:
             return path_builder(nodePath, node)
 
-        #Adjacency List
+        # Adjacency List
         for neighbour in get_walkable_neighbours(board, node[0], node[1]):
             if neighbour not in nodePath:
                 nodesToVisit.put((neighbour, count + 1))
                 nodePath[neighbour] = node
 
     return 'b'
+
 
 if __name__ == '__main__':
     board = [[False, False, False, False],

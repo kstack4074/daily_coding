@@ -2,6 +2,7 @@ def decoder(array):
     memo = [-1] * (len(array) + 1)
     return number_of_ways(array, len(array), memo)
 
+
 def number_of_ways(array, k, memo):
     result = 0
     if k == 0:
@@ -15,7 +16,8 @@ def number_of_ways(array, k, memo):
         return memo[k]
 
     if(k >= 2 and int(array[sIdx] + array[sIdx + 1]) < 26):
-        result += number_of_ways(array, k - 1, memo) + number_of_ways(array, k - 2, memo)
+        result += number_of_ways(array, k - 1, memo) + \
+            number_of_ways(array, k - 2, memo)
     else:
         result += number_of_ways(array, k - 1, memo)
 
